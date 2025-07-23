@@ -1,15 +1,19 @@
 package Gui;
 
 import Datos.NominasDao;
+import domain.Persona;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Nominas extends javax.swing.JPanel {
 
-    NominasDao nomDao = new NominasDao();
+    NominasDao nomDao;
+    Persona per= new Persona();
     
-    public Nominas() {
+    public Nominas(Persona per) {
         initComponents();
+        this.per = per;
+        nomDao = new NominasDao(per.getTipo_empleado());
     }
 
     

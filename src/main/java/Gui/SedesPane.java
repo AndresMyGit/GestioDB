@@ -13,14 +13,16 @@ public class SedesPane extends javax.swing.JPanel {
 
     DefaultTableModel vista = new DefaultTableModel();
     List<Object[]> sedes;
-    SedesDao sedDao = new SedesDao();
+    SedesDao sedDao;
     Persona per = new Usuario();
 
     public SedesPane(Persona per) {
         initComponents();
         this.per = per;
+        sedDao = new SedesDao(per.getTipo_empleado());
         sedes = sedDao.seleccionar();
         actualizarTabla(sedes);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -234,7 +236,7 @@ public class SedesPane extends javax.swing.JPanel {
 
     private void actualizarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarButtonActionPerformed
 
-        InsertarActualizar act = new InsertarActualizar(true);
+        InsertarActualizar act = new InsertarActualizar(true, per);
         act.setLocationRelativeTo(null);
         act.setVisible(true);
 
@@ -243,7 +245,7 @@ public class SedesPane extends javax.swing.JPanel {
     }//GEN-LAST:event_actualizarButtonActionPerformed
 
     private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
-        InsertarActualizar act = new InsertarActualizar(false);
+        InsertarActualizar act = new InsertarActualizar(false,per);
         act.setLocationRelativeTo(null);
         act.setVisible(true);
 

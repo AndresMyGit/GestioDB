@@ -333,7 +333,7 @@ public class prin extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void nominasButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nominasButton3ActionPerformed
-        Nominas nom = new Nominas();
+        Nominas nom = new Nominas(per);
         cambiarVentana(nom);
     }//GEN-LAST:event_nominasButton3ActionPerformed
 

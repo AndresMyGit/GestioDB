@@ -13,14 +13,16 @@ import javax.swing.table.DefaultTableModel;
 public class Empleados extends javax.swing.JPanel {
 
     List<Object[]> empleados = new ArrayList<>();
-    EmpleadoDao empDao = new EmpleadoDao();
+    EmpleadoDao empDao ;
     Persona per = new Usuario();
 
     public Empleados(Persona p) {
         initComponents();
         this.per = p;
+        empDao = new EmpleadoDao(per.getTipo_empleado());
         empleados = empDao.seleccionar(per.getId_sede());
         actualizarTabla(empleados);
+        
 
     }
 

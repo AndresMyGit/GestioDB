@@ -11,10 +11,23 @@ public class SedesDao {
     EntityManagerFactory emf;
     EntityManager em;
     public static final String SELECCIONAR = "SELECT * FROM esquema.sedes_info;";
+    String tipo;
 
+    public SedesDao(String tipo) {
+        this.tipo=tipo;
+    }
+    
     public void conectar() {
-        emf = Persistence.createEntityManagerFactory("admin");
-        em = emf.createEntityManager();
+        if (tipo.equalsIgnoreCase("superadmin")) {
+            emf = Persistence.createEntityManagerFactory("admin");
+            em = emf.createEntityManager();
+        } else if (tipo.equalsIgnoreCase("Administrador")) {
+            emf = Persistence.createEntityManagerFactory("subadmin");
+            em = emf.createEntityManager();
+        }else if(tipo.equalsIgnoreCase("lavador")){
+            emf = Persistence.createEntityManagerFactory("operario");
+            em = emf.createEntityManager();
+        }
     }
 
     public List<Object[]> seleccionar() {
@@ -79,7 +92,7 @@ public class SedesDao {
         }
     }
     
-    public void insertar(Sedes sede) {
+    public void insertar(Sedes sede, String tipo) {
     conectar();
 
     String nombre, documento, correo, contrasena;
@@ -103,7 +116,7 @@ public class SedesDao {
         em.getTransaction().commit();
 
         Sedes ultimaSede = obtenerUltimaSede();
-        EmpleadoDao empDao = new EmpleadoDao();
+        EmpleadoDao empDao = new EmpleadoDao(tipo);
         empDao.insertar(nombre, documento, correo, contrasena, ultimaSede.getId_sede(), 2);
 
         JOptionPane.showMessageDialog(null, "Sede creada correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);

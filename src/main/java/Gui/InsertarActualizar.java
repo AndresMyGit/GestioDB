@@ -5,6 +5,7 @@
 package Gui;
 
 import Datos.SedesDao;
+import domain.Persona;
 import domain.Sedes;
 import javax.swing.JOptionPane;
 
@@ -13,12 +14,15 @@ public class InsertarActualizar extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InsertarActualizar.class.getName());
     boolean actualizar;
     int id=0;
-    SedesDao sedDao = new SedesDao();
+    SedesDao sedDao;
+    Persona per= new Persona();
 
-    public InsertarActualizar(boolean actuliazar) {
+    public InsertarActualizar(boolean actuliazar, Persona per) {
         initComponents();
         this.actualizar = actuliazar;
         insAct(actuliazar);
+        this.per= per;
+        sedDao = new SedesDao(per.getTipo_empleado());
     }
 
     @SuppressWarnings("unchecked")
@@ -165,7 +169,7 @@ public class InsertarActualizar extends javax.swing.JFrame {
                 sedDao.actualizar(id, nombre, direccion, ciudad, telefono);
                 this.dispose();
             } else {
-                sedDao.insertar(sede);
+                sedDao.insertar(sede,per.getTipo_empleado());
                 this.dispose();
             }
         }

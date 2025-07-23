@@ -9,10 +9,22 @@ import java.util.List;
 public class ServiciosDao {
     EntityManagerFactory emf;
     EntityManager em;
+    String tipo;
 
+    public ServiciosDao(String tipo) {
+        this.tipo= tipo;
+    }
 public void conectar(){
-    emf = Persistence.createEntityManagerFactory("admin");
-    em=emf.createEntityManager();
+    if (tipo.equalsIgnoreCase("superadmin")) {
+            emf = Persistence.createEntityManagerFactory("admin");
+            em = emf.createEntityManager();
+        } else if (tipo.equalsIgnoreCase("Administrador")) {
+            emf = Persistence.createEntityManagerFactory("subadmin");
+            em = emf.createEntityManager();
+        }else if(tipo.equalsIgnoreCase("lavador")){
+            emf = Persistence.createEntityManagerFactory("operario");
+            em = emf.createEntityManager();
+        }
 }
 
 public List<Object[]> seleccionar(){

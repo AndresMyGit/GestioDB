@@ -16,20 +16,25 @@ public class Servicios extends javax.swing.JPanel {
 
     private Persona per;
     
-    EmpleadoDao empDao = new EmpleadoDao();
-    VehiculoDao vehDao = new VehiculoDao();
-    ServiciosDao serDao = new ServiciosDao();
+    EmpleadoDao empDao ;
+    VehiculoDao vehDao;
+    ServiciosDao serDao;
     List<Object[]> servicios = new ArrayList<>();
-    ventaDao venDao= new ventaDao();
+    ventaDao venDao;
 
     public Servicios(Persona per) {
         initComponents();
         this.per = per;
+        empDao = new EmpleadoDao(per.getTipo_empleado());
+        serDao = new ServiciosDao(per.getTipo_empleado());
+        vehDao = new VehiculoDao(per.getTipo_empleado());
+        venDao= new ventaDao(per.getTipo_empleado());
         actEmpleadosTabla(empDao.vistaEmpleados(this.per.getId_sede()));
         ActVehiculosTabla(vehDao.vistaVehiculos());
         cargarServicios();
         cargarIdEmpleados();
         actRegistros();
+        
     }
 
     @SuppressWarnings("unchecked")

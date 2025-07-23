@@ -7,12 +7,13 @@ public class InsertarEmpleado extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InsertarEmpleado.class.getName());
     private Persona per = new Persona();
-    private EmpleadoDao empDao= new  EmpleadoDao();
+    private EmpleadoDao empDao;
     
     public InsertarEmpleado(Persona p) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.per=p;
+        empDao = new EmpleadoDao(per.getTipo_empleado());
     }
 
     @SuppressWarnings("unchecked")

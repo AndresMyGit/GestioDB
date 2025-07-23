@@ -10,16 +10,31 @@ public class ventaDao {
 
     private EntityManagerFactory emf;
     private EntityManager em;
+    String tipo;
+
+    public ventaDao(String tipo) {
+        this.tipo=tipo;
+    }
+    
+    
 
     public void conectar() {
-        this.emf = Persistence.createEntityManagerFactory("admin");
-        this.em = emf.createEntityManager();
+         if (tipo.equalsIgnoreCase("superadmin")) {
+            emf = Persistence.createEntityManagerFactory("admin");
+            em = emf.createEntityManager();
+        } else if (tipo.equalsIgnoreCase("Administrador")) {
+            emf = Persistence.createEntityManagerFactory("subadmin");
+            em = emf.createEntityManager();
+        }else if(tipo.equalsIgnoreCase("lavador")){
+            emf = Persistence.createEntityManagerFactory("operario");
+            em = emf.createEntityManager();
+        }
     }
 
     public boolean agregarVenta(String placa, int idServicio, String idempleado, String observaciones, int idsede) {
 
         conectar();
-        VehiculoDao vehdao = new VehiculoDao();
+        VehiculoDao vehdao = new VehiculoDao(tipo);
         LocalDate fecha = LocalDate.now();
         em.getTransaction().begin();
         Venta venta = new Venta();
@@ -62,7 +77,7 @@ public class ventaDao {
 
     public void finalizarRegistro(String placa) {
         conectar();
-        VehiculoDao vehD = new VehiculoDao();
+        VehiculoDao vehD = new VehiculoDao(tipo);
         int idvehiculo = vehD.buscarPlaca(placa);
         if (idvehiculo == -1) {
             return;
@@ -85,7 +100,7 @@ public class ventaDao {
 
     public void canselarRegistro(String placa) {
         conectar();
-        VehiculoDao vehD = new VehiculoDao();
+        VehiculoDao vehD = new VehiculoDao(tipo);
         int idvehiculo = vehD.buscarPlaca(placa);
         em.getTransaction().begin();
         try {

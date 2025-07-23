@@ -11,10 +11,23 @@ public class VehiculoDao {
 
     private EntityManagerFactory emf;
     private EntityManager em;
+    String tipo;
+
+    public VehiculoDao(String tipo) {
+        this.tipo= tipo;
+    }
     
     public void conectar(){
-        this.emf = Persistence.createEntityManagerFactory("admin");
-        this.em = emf.createEntityManager();
+         if (tipo.equalsIgnoreCase("superadmin")) {
+            emf = Persistence.createEntityManagerFactory("admin");
+            em = emf.createEntityManager();
+        } else if (tipo.equalsIgnoreCase("Administrador")) {
+            emf = Persistence.createEntityManagerFactory("subadmin");
+            em = emf.createEntityManager();
+        }else if(tipo.equalsIgnoreCase("lavador")){
+            emf = Persistence.createEntityManagerFactory("operario");
+            em = emf.createEntityManager();
+        }
     }
     
     public List<Object[]> vistaVehiculos(){

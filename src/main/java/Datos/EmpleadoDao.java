@@ -7,14 +7,29 @@ import javax.swing.JOptionPane;
 
 public class EmpleadoDao {
 
-    EntityManagerFactory emf;
-    EntityManager em;
-    public static final String SELECCIONAR = "SELECT * from esquema.ver_empleados";
-    public static final String VISTA_EMPLEADOS="select * from esquema.vista_empleados where id_sede = ";
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    private static final String SELECCIONAR = "SELECT * from esquema.ver_empleados";
+    private static final String VISTA_EMPLEADOS = "select * from esquema.vista_empleados where id_sede = ";
+    private String tipo;
+
+    public EmpleadoDao(String tipo) {
+        this.tipo = tipo;
+    }
 
     public void conectar() {
-        emf = Persistence.createEntityManagerFactory("admin");
-        em = emf.createEntityManager();
+
+        if (tipo.equalsIgnoreCase("superadmin")) {
+            emf = Persistence.createEntityManagerFactory("admin");
+            em = emf.createEntityManager();
+        } else if (tipo.equalsIgnoreCase("Administrador")) {
+            emf = Persistence.createEntityManagerFactory("subadmin");
+            em = emf.createEntityManager();
+        } else if(tipo.equalsIgnoreCase("lavador")){
+            emf = Persistence.createEntityManagerFactory("operario");
+            em = emf.createEntityManager();
+        }
+
     }
 
     public List<Object[]> seleccionar(int sede) {
@@ -129,7 +144,7 @@ public class EmpleadoDao {
                 em.getTransaction().begin();
                 em.merge(per);
                 em.getTransaction().commit();
-                JOptionPane.showMessageDialog(null, "Se realizaron los camvbios", "Echo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se realizaron los cambios", "Echo", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, " Algo a salido mal\nCambios no realizados", "Error", JOptionPane.ERROR_MESSAGE);
@@ -143,11 +158,10 @@ public class EmpleadoDao {
     public void insertar(String nombre, String documento, String correo, String contrasena, int sede, int tipo) {
         conectar();
         Persona per = null;
-
+        em.getTransaction().begin();
         try {
-            em.getTransaction().begin();
 
-            if (tipo != 0) { 
+            if (tipo != 0) {
                 per = new Usuario();
                 ((Usuario) per).setCorreo(correo);
 
@@ -156,7 +170,7 @@ public class EmpleadoDao {
                 } else {
                     per.setTipo_empleado("superadmin");
                 }
-            } else { 
+            } else {
                 per = new Empleado();
                 per.setTipo_empleado("lavador");
             }
@@ -202,20 +216,20 @@ public class EmpleadoDao {
             em.close();
         }
     }
-    
-    public List<Object[]> vistaEmpleados(int sede){
-        
+
+    public List<Object[]> vistaEmpleados(int sede) {
+
         conectar();
         try {
-            return em.createNativeQuery(VISTA_EMPLEADOS+sede).getResultList();
+            return em.createNativeQuery(VISTA_EMPLEADOS + sede).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "vista no cargada");
             return null;
-        }finally{
+        } finally {
             emf.close();
             em.close();
         }
-        
+
     }
 }
