@@ -11,32 +11,22 @@ public class ServiciosDao {
     EntityManager em;
     String tipo;
 
-    public ServiciosDao(String tipo) {
+    public ServiciosDao(String tipo,EntityManagerFactory emf, EntityManager em) {
         this.tipo= tipo;
+        this.emf=emf;
+        this.em=em;
     }
-public void conectar(){
-    if (tipo.equalsIgnoreCase("superadmin")) {
-            emf = Persistence.createEntityManagerFactory("admin");
-            em = emf.createEntityManager();
-        } else if (tipo.equalsIgnoreCase("Administrador")) {
-            emf = Persistence.createEntityManagerFactory("subadmin");
-            em = emf.createEntityManager();
-        }else if(tipo.equalsIgnoreCase("lavador")){
-            emf = Persistence.createEntityManagerFactory("operario");
-            em = emf.createEntityManager();
-        }
-}
+
 
 public List<Object[]> seleccionar(){
-    conectar();
+     
     try{
     return em.createNativeQuery("SELECT * fROM esquema.servicios").getResultList();
     }catch(Exception e){
         e.printStackTrace();
         return null;
     }finally{
-        em.close();
-        emf.close();
+        
     }
 }
 }

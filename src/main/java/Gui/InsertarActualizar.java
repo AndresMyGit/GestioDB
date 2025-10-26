@@ -7,6 +7,8 @@ package Gui;
 import Datos.SedesDao;
 import domain.Persona;
 import domain.Sedes;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 
 public class InsertarActualizar extends javax.swing.JFrame {
@@ -16,13 +18,17 @@ public class InsertarActualizar extends javax.swing.JFrame {
     int id=0;
     SedesDao sedDao;
     Persona per= new Persona();
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
-    public InsertarActualizar(boolean actuliazar, Persona per) {
+    public InsertarActualizar(boolean actuliazar, Persona per,EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
         this.actualizar = actuliazar;
         insAct(actuliazar);
         this.per= per;
-        sedDao = new SedesDao(per.getTipo_empleado());
+        sedDao = new SedesDao(per.getTipo_empleado(),this.emf, this.em);
     }
 
     @SuppressWarnings("unchecked")
@@ -201,8 +207,6 @@ public class InsertarActualizar extends javax.swing.JFrame {
         }
     }
 
-    public static void main(String[] args) {
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ciudadField;

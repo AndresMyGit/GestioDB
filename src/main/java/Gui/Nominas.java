@@ -2,6 +2,8 @@ package Gui;
 
 import Datos.NominasDao;
 import domain.Persona;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,15 @@ public class Nominas extends javax.swing.JPanel {
 
     NominasDao nomDao;
     Persona per= new Persona();
+    private EntityManagerFactory emf;
+    private EntityManager em;
     
-    public Nominas(Persona per) {
+    public Nominas(Persona per,EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
         this.per = per;
-        nomDao = new NominasDao(per.getTipo_empleado());
+        nomDao = new NominasDao(per.getTipo_empleado(), this.emf, this.em);
     }
 
     

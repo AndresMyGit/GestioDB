@@ -4,6 +4,8 @@ import Datos.SedesDao;
 import domain.Persona;
 import domain.Sedes;
 import domain.Usuario;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,11 +17,15 @@ public class SedesPane extends javax.swing.JPanel {
     List<Object[]> sedes;
     SedesDao sedDao;
     Persona per = new Usuario();
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
-    public SedesPane(Persona per) {
+    public SedesPane(Persona per,EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
         this.per = per;
-        sedDao = new SedesDao(per.getTipo_empleado());
+        sedDao = new SedesDao(per.getTipo_empleado(),this.emf, this.em);
         sedes = sedDao.seleccionar();
         actualizarTabla(sedes);
         
@@ -236,7 +242,7 @@ public class SedesPane extends javax.swing.JPanel {
 
     private void actualizarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarButtonActionPerformed
 
-        InsertarActualizar act = new InsertarActualizar(true, per);
+        InsertarActualizar act = new InsertarActualizar(true, per,emf,em);
         act.setLocationRelativeTo(null);
         act.setVisible(true);
 
@@ -245,7 +251,7 @@ public class SedesPane extends javax.swing.JPanel {
     }//GEN-LAST:event_actualizarButtonActionPerformed
 
     private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
-        InsertarActualizar act = new InsertarActualizar(false,per);
+        InsertarActualizar act = new InsertarActualizar(false,per,emf,em);
         act.setLocationRelativeTo(null);
         act.setVisible(true);
 

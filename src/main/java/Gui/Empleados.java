@@ -4,6 +4,8 @@ import Datos.EmpleadoDao;
 import domain.Empleado;
 import domain.Persona;
 import domain.Usuario;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,15 @@ public class Empleados extends javax.swing.JPanel {
     List<Object[]> empleados = new ArrayList<>();
     EmpleadoDao empDao ;
     Persona per = new Usuario();
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
-    public Empleados(Persona p) {
+    public Empleados(Persona p,EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
         this.per = p;
-        empDao = new EmpleadoDao(per.getTipo_empleado());
+        empDao = new EmpleadoDao(per.getTipo_empleado(),this.emf,this.em);
         empleados = empDao.seleccionar(per.getId_sede());
         actualizarTabla(empleados);
         
@@ -307,7 +313,7 @@ public class Empleados extends javax.swing.JPanel {
     }//GEN-LAST:event_actualizarButtonActionPerformed
 
     private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
-        InsertarEmpleado insEmp = new InsertarEmpleado(per);
+        InsertarEmpleado insEmp = new InsertarEmpleado(per,emf,em);
         insEmp.setLocationRelativeTo(null);
         insEmp.setVisible(true);
         empleados = empDao.seleccionar(this.per.getId_sede());

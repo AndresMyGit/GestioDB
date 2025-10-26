@@ -79,7 +79,7 @@
               <Color blue="33" green="ff" red="33" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\andre\Downloads\carro.png"/>
+              <Image iconType="3" name="/imagenes/carro.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Servicios"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -107,7 +107,7 @@
               <Color blue="33" green="ff" red="33" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\andre\Downloads\empleados (1).png"/>
+              <Image iconType="3" name="/imagenes/empleados (1).png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Empleados"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -135,7 +135,7 @@
               <Color blue="33" green="ff" red="33" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\andre\Downloads\dinero (1).png"/>
+              <Image iconType="3" name="/imagenes/dinero (1).png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nominas"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -163,7 +163,7 @@
               <Color blue="33" green="ff" red="33" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\andre\Downloads\compra-local (1).png"/>
+              <Image iconType="3" name="/imagenes/compra-local (1).png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sedes"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -299,7 +299,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\andre\Downloads\diente (2).png"/>
+              <Image iconType="3" name="/imagenes/diente (2).png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sistem"/>
             <Property name="verticalAlignment" type="int" value="1"/>
@@ -308,7 +308,7 @@
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\andre\Downloads\cerrar-sesion.png"/>
+              <Image iconType="3" name="/imagenes/cerrar-sesion.png"/>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Cursor de Mano"/>

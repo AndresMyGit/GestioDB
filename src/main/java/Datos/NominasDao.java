@@ -9,8 +9,10 @@ public class NominasDao {
     EntityManager em;
     String tipo;
 
-    public NominasDao(String tipo) {
+    public NominasDao(String tipo,EntityManagerFactory emf, EntityManager em) {
         this.tipo=tipo;
+        this.emf=emf;
+        this.em=em;
     }
     
 public void conectar(){
@@ -28,7 +30,7 @@ public void conectar(){
 }
     
 public Object[] cargarNomina(String idEmpleado, int mes, String anio) {
-    conectar();
+     
     Object[] resultados=null ;
 
     try {

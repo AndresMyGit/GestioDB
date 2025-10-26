@@ -13,25 +13,16 @@ public class VehiculoDao {
     private EntityManager em;
     String tipo;
 
-    public VehiculoDao(String tipo) {
+    public VehiculoDao(String tipo,EntityManagerFactory emf, EntityManager em) {
         this.tipo= tipo;
+        this.emf=emf;
+        this.em=em;
     }
     
-    public void conectar(){
-         if (tipo.equalsIgnoreCase("superadmin")) {
-            emf = Persistence.createEntityManagerFactory("admin");
-            em = emf.createEntityManager();
-        } else if (tipo.equalsIgnoreCase("Administrador")) {
-            emf = Persistence.createEntityManagerFactory("subadmin");
-            em = emf.createEntityManager();
-        }else if(tipo.equalsIgnoreCase("lavador")){
-            emf = Persistence.createEntityManagerFactory("operario");
-            em = emf.createEntityManager();
-        }
-    }
+    
     
     public List<Object[]> vistaVehiculos(){
-        conectar();
+         
         try {
         return em.createNativeQuery("SELECT * FROM esquema.vista_vehiculos ORDER BY id_vehiculo DESC ").getResultList();    
         } catch (Exception e) {
@@ -39,13 +30,12 @@ public class VehiculoDao {
             JOptionPane.showMessageDialog(null, "Vista no cargada","Error",JOptionPane.ERROR_MESSAGE);
             return null;
         }finally{
-            em.close();
-            emf.close();
+            
         }
     }
     
     public void insertar(){
-        conectar();
+         
         em.getTransaction().begin();
         String placa = JOptionPane.showInputDialog(null, "Digite la placa", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         String marca = JOptionPane.showInputDialog(null, "Digite la Marca", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -63,13 +53,12 @@ public class VehiculoDao {
             JOptionPane.showMessageDialog(null, "Algo a salido mal","Error",JOptionPane.ERROR_MESSAGE);
             em.getTransaction().rollback();
         }finally{
-            emf.close();
-            em.close();
+          
         }
     }
     
     public int buscarPlaca(String placa){
-        conectar();
+         
         try {
             Object resultado=em.createNativeQuery("SELECT id_vehiculo FROM esquema.vehiculos WHERE placa =" + "'"+placa+"'").getSingleResult();
             if(resultado == null){

@@ -1,6 +1,8 @@
 package Gui;
 
 import domain.Persona;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -9,13 +11,19 @@ public class prin extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(prin.class.getName());
     private Persona per = new Persona();
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
-    public prin() {
+    public prin(EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
     }
 
-    public prin(Persona p) {
+    public prin(Persona p,EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
         this.per = p;
         this.userLabel.setText(" " + p.getNombre());
         this.sedeLabel.setText(" " + p.getId_sede());
@@ -53,7 +61,7 @@ public class prin extends javax.swing.JFrame {
         serviciosButton2.setBackground(new java.awt.Color(255, 255, 255));
         serviciosButton2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         serviciosButton2.setForeground(new java.awt.Color(51, 255, 51));
-        serviciosButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\carro.png")); // NOI18N
+        serviciosButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/carro.png"))); // NOI18N
         serviciosButton2.setText("Servicios");
         serviciosButton2.setBorder(null);
         serviciosButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -74,7 +82,7 @@ public class prin extends javax.swing.JFrame {
         empleadosButton.setBackground(new java.awt.Color(255, 255, 255));
         empleadosButton.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         empleadosButton.setForeground(new java.awt.Color(51, 255, 51));
-        empleadosButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\empleados (1).png")); // NOI18N
+        empleadosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados (1).png"))); // NOI18N
         empleadosButton.setText("Empleados");
         empleadosButton.setBorder(null);
         empleadosButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -95,7 +103,7 @@ public class prin extends javax.swing.JFrame {
         nominasButton3.setBackground(new java.awt.Color(255, 255, 255));
         nominasButton3.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         nominasButton3.setForeground(new java.awt.Color(51, 255, 51));
-        nominasButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\dinero (1).png")); // NOI18N
+        nominasButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/dinero (1).png"))); // NOI18N
         nominasButton3.setText("Nominas");
         nominasButton3.setBorder(null);
         nominasButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -116,7 +124,7 @@ public class prin extends javax.swing.JFrame {
         sedesButton.setBackground(new java.awt.Color(255, 255, 255));
         sedesButton.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         sedesButton.setForeground(new java.awt.Color(51, 255, 51));
-        sedesButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\compra-local (1).png")); // NOI18N
+        sedesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compra-local (1).png"))); // NOI18N
         sedesButton.setText("Sedes");
         sedesButton.setBorder(null);
         sedesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -184,11 +192,11 @@ public class prin extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\diente (2).png")); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/diente (2).png"))); // NOI18N
         jLabel9.setText("Sistem");
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\cerrar-sesion.png")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cerrar-sesion.png"))); // NOI18N
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel5.setIconTextGap(2);
@@ -284,7 +292,7 @@ public class prin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void serviciosButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviciosButton2ActionPerformed
-        Servicios ser = new Servicios(this.per);
+        Servicios ser = new Servicios(this.per,this.emf, this.em);
         cambiarVentana(ser);
     }//GEN-LAST:event_serviciosButton2ActionPerformed
 
@@ -321,7 +329,7 @@ public class prin extends javax.swing.JFrame {
     }//GEN-LAST:event_sedesButtonMouseExited
 
     private void empleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosButtonActionPerformed
-        Empleados emp = new Empleados(per);
+        Empleados emp = new Empleados(per,this.emf, this.em);
         cambiarVentana(emp);
     }//GEN-LAST:event_empleadosButtonActionPerformed
 
@@ -333,20 +341,14 @@ public class prin extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void nominasButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nominasButton3ActionPerformed
-        Nominas nom = new Nominas(per);
+        Nominas nom = new Nominas(per,this.emf, this.em);
         cambiarVentana(nom);
     }//GEN-LAST:event_nominasButton3ActionPerformed
 
     private void sedesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sedesButtonActionPerformed
-        SedesPane sed = new SedesPane(this.per);
+        SedesPane sed = new SedesPane(this.per,this.emf, this.em);
         cambiarVentana(sed);
     }//GEN-LAST:event_sedesButtonActionPerformed
-
-    public static void main(String[] args) {
-        prin p = new prin();
-        p.setLocationRelativeTo(null);
-        p.setVisible(true);
-    }
 
     public void cambiarVentana(JPanel panel) {
         this.Contenedor.removeAll();

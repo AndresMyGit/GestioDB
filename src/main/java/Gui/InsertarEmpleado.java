@@ -2,18 +2,24 @@ package Gui;
 
 import Datos.EmpleadoDao;
 import domain.Persona;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 public class InsertarEmpleado extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InsertarEmpleado.class.getName());
     private Persona per = new Persona();
     private EmpleadoDao empDao;
+    private EntityManagerFactory emf;
+    private EntityManager em;
     
-    public InsertarEmpleado(Persona p) {
+    public InsertarEmpleado(Persona p,EntityManagerFactory emf, EntityManager em) {
         initComponents();
+        this.emf=emf;
+        this.em=em;
         this.setLocationRelativeTo(null);
         this.per=p;
-        empDao = new EmpleadoDao(per.getTipo_empleado());
+        empDao = new EmpleadoDao(per.getTipo_empleado(),this.emf, this.em);
     }
 
     @SuppressWarnings("unchecked")
@@ -191,19 +197,7 @@ public class InsertarEmpleado extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(() -> new InsertarEmpleado(null).setVisible(true));
-    }
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField NombreTextField;
     private javax.swing.JPasswordField contrasenaField;

@@ -7,8 +7,14 @@ public class Coneccion {
 
     private final String query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre AND u.contrasena = :contrasena";
     private final String query2 = "SELECT u FROM Empleado u WHERE u.nombre = :nombre AND u.contrasena = :contrasena";
-    
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
+    public Coneccion(EntityManagerFactory emf, EntityManager em){
+        this.emf=emf;
+        this.em=em;
+    }
+            
 
     public Persona validarUsuario(String usuario, String contrasena) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("admin");
@@ -30,8 +36,8 @@ public class Coneccion {
             }
             
         }finally{
-            em.close();
-            emf.close();
+              
+              
         }
     }
 

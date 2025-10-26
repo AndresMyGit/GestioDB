@@ -13,27 +13,16 @@ public class EmpleadoDao {
     private static final String VISTA_EMPLEADOS = "select * from esquema.vista_empleados where id_sede = ";
     private String tipo;
 
-    public EmpleadoDao(String tipo) {
+    public EmpleadoDao(String tipo,EntityManagerFactory emf, EntityManager em) {
         this.tipo = tipo;
+        this.emf=emf;
+        this.em=em;
     }
 
-    public void conectar() {
-
-        if (tipo.equalsIgnoreCase("superadmin")) {
-            emf = Persistence.createEntityManagerFactory("admin");
-            em = emf.createEntityManager();
-        } else if (tipo.equalsIgnoreCase("Administrador")) {
-            emf = Persistence.createEntityManagerFactory("subadmin");
-            em = emf.createEntityManager();
-        } else if(tipo.equalsIgnoreCase("lavador")){
-            emf = Persistence.createEntityManagerFactory("operario");
-            em = emf.createEntityManager();
-        }
-
-    }
+    
 
     public List<Object[]> seleccionar(int sede) {
-        conectar();
+         
         try {
             List<Object[]> o = em.createNativeQuery(SELECCIONAR + " WHERE id_sede = " + sede).getResultList();
             return o;
@@ -41,13 +30,13 @@ public class EmpleadoDao {
             e.printStackTrace();
             return null;
         } finally {
-            em.close();
-            emf.close();
+              
+              
         }
     }
 
     public Persona busquedaID(int id) {
-        conectar();
+         
         try {
             Persona per = em.find(Usuario.class, id);
 
@@ -60,13 +49,13 @@ public class EmpleadoDao {
             JOptionPane.showMessageDialog(null, " Valor no válido", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         } finally {
-            em.close();
-            emf.close();
+              
+              
         }
     }
 
     public List<Object[]> busquedaDespedido(int sede) {
-        conectar();
+         
         try {
             List<Object[]> o = em.createNativeQuery(SELECCIONAR + " WHERE activo = FALSE AND id_sede = " + sede).getResultList();
             return o;
@@ -74,13 +63,13 @@ public class EmpleadoDao {
             e.printStackTrace();
             return null;
         } finally {
-            em.close();
-            emf.close();
+              
+              
         }
     }
 
     public List<Object[]> busquedaLavadores(int sede) {
-        conectar();
+         
         try {
             List<Object[]> o = em.createNativeQuery(SELECCIONAR + " WHERE tipo_empleado = 'lavador' AND id_sede = " + sede).getResultList();
             return o;
@@ -88,13 +77,13 @@ public class EmpleadoDao {
             e.printStackTrace();
             return null;
         } finally {
-            em.close();
-            emf.close();
+              
+              
         }
     }
 
     public void actualizarEmpleado(int id) {
-        conectar();
+         
         try {
             Persona per = em.find(Usuario.class, id);
             if (per == null) {
@@ -150,13 +139,13 @@ public class EmpleadoDao {
             JOptionPane.showMessageDialog(null, " Algo a salido mal\nCambios no realizados", "Error", JOptionPane.ERROR_MESSAGE);
             em.getTransaction().rollback();
         } finally {
-            emf.close();
-            em.close();
+              
+              
         }
     }
 
     public void insertar(String nombre, String documento, String correo, String contrasena, int sede, int tipo) {
-        conectar();
+         
         Persona per = null;
         em.getTransaction().begin();
         try {
@@ -192,16 +181,16 @@ public class EmpleadoDao {
             JOptionPane.showMessageDialog(null, "Algo ha salido mal: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             if (em.isOpen()) {
-                em.close();
+                  
             }
             if (emf.isOpen()) {
-                emf.close();
+                  
             }
         }
     }
 
     public void despedir(int id) {
-        conectar();
+         
         try {
             em.getTransaction().begin();
             em.createNativeQuery("call esquema.despedir(" + id + ")").executeUpdate();
@@ -212,14 +201,14 @@ public class EmpleadoDao {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "Empleado no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
-            emf.close();
-            em.close();
+              
+              
         }
     }
 
     public List<Object[]> vistaEmpleados(int sede) {
 
-        conectar();
+         
         try {
             return em.createNativeQuery(VISTA_EMPLEADOS + sede).getResultList();
         } catch (Exception e) {
@@ -227,8 +216,8 @@ public class EmpleadoDao {
             JOptionPane.showMessageDialog(null, "vista no cargada");
             return null;
         } finally {
-            emf.close();
-            em.close();
+              
+              
         }
 
     }

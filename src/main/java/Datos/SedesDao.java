@@ -13,25 +13,16 @@ public class SedesDao {
     public static final String SELECCIONAR = "SELECT * FROM esquema.sedes_info;";
     String tipo;
 
-    public SedesDao(String tipo) {
+    public SedesDao(String tipo,EntityManagerFactory emf, EntityManager em) {
         this.tipo=tipo;
+        this.emf=emf;
+        this.em=em;
     }
     
-    public void conectar() {
-        if (tipo.equalsIgnoreCase("superadmin")) {
-            emf = Persistence.createEntityManagerFactory("admin");
-            em = emf.createEntityManager();
-        } else if (tipo.equalsIgnoreCase("Administrador")) {
-            emf = Persistence.createEntityManagerFactory("subadmin");
-            em = emf.createEntityManager();
-        }else if(tipo.equalsIgnoreCase("lavador")){
-            emf = Persistence.createEntityManagerFactory("operario");
-            em = emf.createEntityManager();
-        }
-    }
+    
 
     public List<Object[]> seleccionar() {
-        conectar();
+         
         List<Object[]> o = new ArrayList<>();
         try {
             o = em.createNativeQuery(SELECCIONAR).getResultList();
@@ -41,13 +32,13 @@ public class SedesDao {
             JOptionPane.showMessageDialog(null, "Algo a salido mal", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         } finally {
-            emf.close();
-            em.close();
+              
+              
         }
     }
 
     public Sedes seleccionar(int id) {
-        conectar();
+         
         try {
             Sedes sede = em.find(Sedes.class, id);
             if (sede == null) {
@@ -61,13 +52,13 @@ public class SedesDao {
             JOptionPane.showMessageDialog(null, " No encontrado", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         } finally {
-            em.close();
-            emf.close();
+              
+              
         }
     }
 
     public void actualizar(int id, String nombre, String direccion, String ciudad, String telefono) {
-        conectar();
+         
         Sedes sede = new Sedes();
         try {
             em.getTransaction().begin();
@@ -87,13 +78,13 @@ public class SedesDao {
         } catch (Exception e) {
             em.getTransaction().rollback();
         }finally{
-            em.close();
-            emf.close();
+              
+              
         }
     }
     
     public void insertar(Sedes sede, String tipo) {
-    conectar();
+     
 
     String nombre, documento, correo, contrasena;
 
@@ -116,7 +107,7 @@ public class SedesDao {
         em.getTransaction().commit();
 
         Sedes ultimaSede = obtenerUltimaSede();
-        EmpleadoDao empDao = new EmpleadoDao(tipo);
+        EmpleadoDao empDao = new EmpleadoDao(tipo,emf,em);
         empDao.insertar(nombre, documento, correo, contrasena, ultimaSede.getId_sede(), 2);
 
         JOptionPane.showMessageDialog(null, "Sede creada correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -129,14 +120,13 @@ public class SedesDao {
         JOptionPane.showMessageDialog(null, "Algo ha salido mal", "Error", JOptionPane.ERROR_MESSAGE);
 
     } finally {
-        if (em.isOpen()) em.close();
-        if (emf.isOpen()) emf.close();
+           
     }
 }
 
     
     public Sedes obtenerUltimaSede() {
-    conectar(); 
+      
     Sedes ultimaSede = null;
     try {
         ultimaSede = em.createQuery("SELECT s FROM Sedes s ORDER BY s.id DESC", Sedes.class)

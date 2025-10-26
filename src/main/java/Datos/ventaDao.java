@@ -12,29 +12,16 @@ public class ventaDao {
     private EntityManager em;
     String tipo;
 
-    public ventaDao(String tipo) {
+    public ventaDao(String tipo,EntityManagerFactory emf, EntityManager em) {
         this.tipo=tipo;
+        this.emf=emf;
+        this.em=em;
     }
     
-    
-
-    public void conectar() {
-         if (tipo.equalsIgnoreCase("superadmin")) {
-            emf = Persistence.createEntityManagerFactory("admin");
-            em = emf.createEntityManager();
-        } else if (tipo.equalsIgnoreCase("Administrador")) {
-            emf = Persistence.createEntityManagerFactory("subadmin");
-            em = emf.createEntityManager();
-        }else if(tipo.equalsIgnoreCase("lavador")){
-            emf = Persistence.createEntityManagerFactory("operario");
-            em = emf.createEntityManager();
-        }
-    }
-
     public boolean agregarVenta(String placa, int idServicio, String idempleado, String observaciones, int idsede) {
 
-        conectar();
-        VehiculoDao vehdao = new VehiculoDao(tipo);
+         
+        VehiculoDao vehdao = new VehiculoDao(tipo,emf,em);
         LocalDate fecha = LocalDate.now();
         em.getTransaction().begin();
         Venta venta = new Venta();
@@ -49,6 +36,7 @@ public class ventaDao {
 
             em.persist(venta);
             em.getTransaction().commit();
+            
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,28 +44,28 @@ public class ventaDao {
             em.getTransaction().rollback();
             return false;
         } finally {
-            emf.close();
-            em.close();
+              
+          
         }
 
     }
 
     public List<Object[]> verRegistros() {
-        conectar();
+         
         try {
             return em.createNativeQuery("SELECT * FROM esquema.vista_registros").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         } finally {
-            emf.close();
-            em.close();
+              
+          
         }
     }
 
     public void finalizarRegistro(String placa) {
-        conectar();
-        VehiculoDao vehD = new VehiculoDao(tipo);
+         
+        VehiculoDao vehD = new VehiculoDao(tipo,emf,em);
         int idvehiculo = vehD.buscarPlaca(placa);
         if (idvehiculo == -1) {
             return;
@@ -93,14 +81,14 @@ public class ventaDao {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "Operacion cancelada");
         } finally {
-            emf.close();
-            em.close();
+              
+          
         }
     }
 
     public void canselarRegistro(String placa) {
-        conectar();
-        VehiculoDao vehD = new VehiculoDao(tipo);
+         
+        VehiculoDao vehD = new VehiculoDao(tipo,emf,em);
         int idvehiculo = vehD.buscarPlaca(placa);
         em.getTransaction().begin();
         try {
@@ -113,8 +101,7 @@ public class ventaDao {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "Operacion cancelada");
         } finally {
-            emf.close();
-            em.close();
+          
         }
     }
 }

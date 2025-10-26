@@ -1,24 +1,21 @@
 package Gui;
 
 import Datos.Coneccion;
-import domain.Empleado;
 import domain.Persona;
-import domain.Usuario;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 public class Loggin extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Loggin.class.getName());
-    Coneccion con = new Coneccion();
+    private EntityManagerFactory emf=Persistence.createEntityManagerFactory("admin");
+    private EntityManager em = emf.createEntityManager();
+    private Coneccion con = new Coneccion(this.emf,this.em);
 
     public Loggin() {
         initComponents();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -109,7 +106,7 @@ public class Loggin extends javax.swing.JFrame {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\im.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/im.png"))); // NOI18N
         jLabel1.setPreferredSize(new java.awt.Dimension(612, 380));
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -140,7 +137,7 @@ public class Loggin extends javax.swing.JFrame {
         Persona entrar = con.validarUsuario(user, contraseña); 
         if (entrar!=null) {
             this.dispose(); 
-            prin pr= new prin(entrar);
+            prin pr= new prin(entrar,this.emf, this.em);
             pr.setLocationRelativeTo(null);
             pr.setVisible(true);
             JOptionPane.showMessageDialog(null, "Sesión iniciada", "Validado", JOptionPane.INFORMATION_MESSAGE);

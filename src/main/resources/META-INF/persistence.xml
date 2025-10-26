@@ -22,9 +22,9 @@
         <properties>
             <!-- Datos de conexión -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Wash_N_Go"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="1234"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-d3tdbqmuk2gs73d1pcqg-a.oregon-postgres.render.com:5432/andres_ytzb?sslmode=require"/>
+            <property name="jakarta.persistence.jdbc.user" value="andres"/>
+            <property name="jakarta.persistence.jdbc.password" value="IIxCqZZTJZEipNBI29TBJeVOPaFe74pS"/>
 
             <!-- Configuración de Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
@@ -51,7 +51,7 @@
         <properties>
             <!-- Datos de conexión -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Wash_N_Go"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-d3tdbqmuk2gs73d1pcqg-a.oregon-postgres.render.com:5432/Wash_N_Go?sslmode=require"/>
             <property name="jakarta.persistence.jdbc.user" value="administrador"/>
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
 
@@ -81,7 +81,7 @@
         <properties>
             <!-- Datos de conexión -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Wash_N_Go"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-d3tdbqmuk2gs73d1pcqg-a.oregon-postgres.render.com:5432/Wash_N_Go?sslmode=require"/>
             <property name="jakarta.persistence.jdbc.user" value="operario"/>
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
 
